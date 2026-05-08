@@ -1,0 +1,19 @@
+{
+  "name": "budget-app-cpt304-enhanced",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "test": "vitest run tests/core.test.js --environment jsdom",
+    "coverage": "vitest run tests/core.test.js --environment jsdom --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "latest",
+    "jsdom": "latest",
+    "vite": "latest",
+    "vitest": "latest"
+  }
+}

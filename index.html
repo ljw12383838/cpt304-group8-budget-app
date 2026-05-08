@@ -1,83 +1,126 @@
-<!DOCTYPE html>
+npm install<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Budget Web App | javascript</title>
-    <link href="./style.css" rel="stylesheet" type="text/css" />
+    <meta
+      name="description"
+      content="Accessible, bilingual personal budget app enhanced for CPT304 Coursework 1."
+    />
+    <title>Budget App | CPT304 Enhanced</title>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <div class="budget-container">
-      <div class="app-title">
-        <a href="">Budget<b>App</b></a>
+    <main class="budget-container" aria-labelledby="app-title">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow" data-i18n="eyebrow">Personal Finance</p>
+          <h1 id="app-title">Budget<span>App</span></h1>
+        </div>
+        <button id="language-toggle" class="secondary-btn" type="button" aria-label="Switch language">
+          中文
+        </button>
+      </header>
+
+      <section class="budget-summary" aria-labelledby="summary-title">
+        <h2 id="summary-title" class="sr-only" data-i18n="summaryTitle">Budget summary</h2>
+        <div class="balance-card" aria-live="polite">
+          <p class="summary-label" data-i18n="balance">Balance</p>
+          <p class="summary-value balance-value"><small>$</small>0.00</p>
+        </div>
+
+        <div class="account-grid">
+          <div>
+            <p class="summary-label" data-i18n="income">Income</p>
+            <p class="income-total"><small>$</small>0.00</p>
+          </div>
+          <div class="chart" aria-hidden="true"></div>
+          <div>
+            <p class="summary-label" data-i18n="expense">Expenses</p>
+            <p class="expense-total"><small>$</small>0.00</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard" aria-labelledby="dashboard-title">
+        <div class="dashboard-heading">
+          <h2 id="dashboard-title" data-i18n="dashboard">Dashboard</h2>
+          <button id="clear-data" class="danger-link" type="button" data-i18n="clearAll">
+            Clear all
+          </button>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Budget entry filters">
+          <button id="tab-all" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="panel-all" data-panel="all" data-i18n="all">All</button>
+          <button id="tab-income" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-income" data-panel="income" data-i18n="income">Income</button>
+          <button id="tab-expense" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-expense" data-panel="expense" data-i18n="expensesTab">Expenses</button>
+        </div>
+
+        <p id="status-message" class="status" role="status" aria-live="polite"></p>
+
+        <section id="panel-all" class="panel" role="tabpanel" aria-labelledby="tab-all">
+          <ul id="all-list" class="entry-list" aria-label="All budget entries"></ul>
+        </section>
+
+        <section id="panel-income" class="panel hidden" role="tabpanel" aria-labelledby="tab-income">
+          <form id="income-form" class="entry-form" novalidate>
+            <div class="field">
+              <label for="income-title-input" data-i18n="titleLabel">Title</label>
+              <input id="income-title-input" name="title" type="text" maxlength="40" autocomplete="off" data-i18n-placeholder="titlePlaceholder" placeholder="e.g. Salary" />
+            </div>
+            <div class="field amount-field">
+              <label for="income-amount-input" data-i18n="amountLabel">Amount</label>
+              <input id="income-amount-input" name="amount" type="number" min="0.01" max="1000000" step="0.01" inputmode="decimal" data-i18n-placeholder="amountPlaceholder" placeholder="0.00" />
+            </div>
+            <button class="add-btn" type="submit" data-i18n="addIncome">Add income</button>
+          </form>
+          <ul id="income-list" class="entry-list" aria-label="Income entries"></ul>
+        </section>
+
+        <section id="panel-expense" class="panel hidden" role="tabpanel" aria-labelledby="tab-expense">
+          <form id="expense-form" class="entry-form" novalidate>
+            <div class="field">
+              <label for="expense-title-input" data-i18n="titleLabel">Title</label>
+              <input id="expense-title-input" name="title" type="text" maxlength="40" autocomplete="off" data-i18n-placeholder="titlePlaceholder" placeholder="e.g. Food" />
+            </div>
+            <div class="field amount-field">
+              <label for="expense-amount-input" data-i18n="amountLabel">Amount</label>
+              <input id="expense-amount-input" name="amount" type="number" min="0.01" max="1000000" step="0.01" inputmode="decimal" data-i18n-placeholder="amountPlaceholder" placeholder="0.00" />
+            </div>
+            <button class="add-btn" type="submit" data-i18n="addExpense">Add expense</button>
+          </form>
+          <ul id="expense-list" class="entry-list" aria-label="Expense entries"></ul>
+        </section>
+      </section>
+    </main>
+
+    <aside id="cookie-banner" class="cookie-banner hidden" aria-labelledby="cookie-title">
+      <div>
+        <h2 id="cookie-title" data-i18n="cookieTitle">Privacy notice</h2>
+        <p data-i18n="cookieText">
+          This app stores budget entries in your browser localStorage only after consent. No data is sent to a server.
+        </p>
       </div>
-      <div class="budget-header">
-        <div class="balance">
-          <div class="title">Balance</div>
-          <div class="value"><small>$</small>0</div>
-        </div>
-        <div class="account">
-          <div class="income">
-            <div class="title">Income</div>
-            <div class="income-total"><small>$</small>0</div>
-          </div>
-          <div class="chart"></div>
-          <div class="outcome">
-            <div class="title">Outcome</div>
-            <div class="outcome-total"><small>$</small>0</div>
-          </div>
-        </div>
+      <div class="cookie-actions">
+        <button id="accept-storage" class="add-btn" type="button" data-i18n="accept">Accept</button>
+        <button id="decline-storage" class="secondary-btn" type="button" data-i18n="decline">Decline</button>
+        <button id="open-privacy" class="link-btn" type="button" data-i18n="privacyPolicy">Privacy policy</button>
       </div>
-      <div class="budget-dashboard">
-        <div class="dash-title">Dashboard</div>
-        <div class="toggle">
-          <div class="first-tab">Expenses</div>
-          <div class="second-tab">Income</div>
-          <div class="third-tab focus">All</div>
-        </div>
-        <div class="hide" id="expense">
-          <ul class="list"></ul>
-          <div class="input">
-            <input
-              type="text"
-              id="expense-title-input"
-              name="title"
-              placeholder="title"
-            />
-            <input
-              type="number"
-              id="expense-amount-input"
-              name="amount"
-              placeholder="$0"
-            />
-            <div class="add-expense"><img src="icon/plus.png" alt="+" /></div>
-          </div>
-        </div>
-        <div class="hide" id="income">
-          <ul class="list"></ul>
-          <div class="input">
-            <input
-              type="text"
-              id="income-title-input"
-              name="title"
-              placeholder="title"
-            />
-            <input
-              type="number"
-              id="income-amount-input"
-              name="amount"
-              placeholder="$0"
-            />
-            <div class="add-income"><img src="icon/plus.png" alt="+" /></div>
-          </div>
-        </div>
-        <div id="all">
-          <ul class="list"></ul>
-        </div>
-      </div>
-    </div>
-    <script src="./chart.js"></script>
-    <script src="./budget.js"></script>
+    </aside>
+
+    <dialog id="privacy-dialog" aria-labelledby="privacy-title">
+      <h2 id="privacy-title" data-i18n="privacyTitle">Privacy Policy</h2>
+      <p data-i18n="privacyBody1">
+        This enhanced Budget App stores entries, language preference and consent status in browser localStorage. The data remains on the user's device.
+      </p>
+      <p data-i18n="privacyBody2">
+        Users can refuse storage, continue using the app in memory, or clear stored data at any time using the Clear all button.
+      </p>
+      <form method="dialog">
+        <button class="add-btn" data-i18n="close" type="submit">Close</button>
+      </form>
+    </dialog>
+
+    <script type="module" src="./src/app.js"></script>
   </body>
 </html>

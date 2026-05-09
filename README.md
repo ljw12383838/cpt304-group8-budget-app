@@ -1,22 +1,92 @@
-# Budget App - CPT304 Enhanced Version
+# Budget App - CPT304 Group 8
 
-[![codecov](https://codecov.io/gh/ljw12383838/budget-app-cpt304-group8/branch/main/graph/badge.svg)](https://codecov.io/gh/ljw12383838/budget-app-cpt304-group8)
+[![codecov](https://codecov.io/gh/ljw12383838/cpt304-group8-budget-app/branch/main/graph/badge.svg)](https://codecov.io/gh/ljw12383838/cpt304-group8-budget-app)
 
-This is an enhanced version of the Personal Budget App for CPT304 Coursework 1: Research-Led Software Enhancement.
+An enhanced Personal Budget App developed for CPT304 Coursework 1: Research-Led Software Enhancement.
 
-## Main Improvements
+The application improves the original prototype with safer rendering, stronger validation, better accessibility, bilingual interface support, privacy-aware local storage, automated testing, and deployment-ready configuration.
 
-- Security: replaced unsafe HTML string rendering with DOM APIs and `textContent` to reduce XSS risk.
-- Logic quality: added strict validation for title length, positive numeric amounts, maximum amount and two-decimal precision.
-- Accessibility: rebuilt interactive controls with semantic buttons, form labels, ARIA tabs, status messages and visible keyboard focus.
-- Internationalisation: added a working English/Chinese language toggle.
-- Legal/privacy: added localStorage consent banner, privacy policy dialog and clear-data control.
-- Testing: added Vitest coverage for the core maintainable modules: model, validation, storage, i18n and chart rendering.
+## Features
 
-## Run Locally
+- Add and remove income and expense entries.
+- Automatically calculate total income, total expenses, and balance.
+- Display a visual income/expense summary chart.
+- Validate user input before creating budget entries.
+- Support English and Chinese interface switching.
+- Store budget entries locally only after user consent.
+- Provide a Privacy Policy dialog and a clear-data option.
+- Support keyboard navigation and accessible interface controls.
+
+## Main Enhancements
+
+### Security
+
+User-entered budget entry titles are rendered with DOM APIs and `textContent` rather than unsafe HTML string insertion. This reduces the risk of script injection through form input.
+
+### Validation
+
+Input validation is centralised in `src/validation.js`. The enhanced validation checks:
+
+- Empty titles
+- Overlong titles
+- Invalid numeric input
+- Zero or negative amounts
+- Excessively large amounts
+- Amounts with more than two decimal places
+
+### Accessibility
+
+The interface uses semantic HTML, labelled form controls, ARIA attributes, live status feedback, and visible keyboard focus styles. These changes improve usability for keyboard and assistive technology users.
+
+### Internationalisation
+
+The app supports an English/Chinese language toggle. Interface text, placeholders, document title, and language metadata update when the language is changed.
+
+### Privacy
+
+Budget data is stored in browser `localStorage` only after user consent. Users can accept or decline local persistence, open the Privacy Policy dialog, and clear locally stored budget data.
+
+### Testing and CI
+
+The project uses Vitest with V8 coverage reporting. GitHub Actions runs the test and coverage workflow automatically.
+
+## Project Structure
+
+```text
+.
+├── .github/
+│   └── workflows/
+│       └── ci.yml
+├── font/
+├── icon/
+├── src/
+│   ├── app.js
+│   ├── chart.js
+│   ├── i18n.js
+│   ├── model.js
+│   ├── storage.js
+│   └── validation.js
+├── tests/
+│   └── core.test.js
+├── index.html
+├── style.css
+├── package.json
+├── package-lock.json
+├── vite.config.js
+└── README.md
+```
+
+## Getting Started
+
+Install dependencies:
 
 ```bash
 npm install
+```
+
+Start the local development server:
+
+```bash
 npm run start
 ```
 
@@ -26,14 +96,21 @@ Open the local URL printed by Vite, usually:
 http://localhost:5173
 ```
 
-## Test and Coverage
+## Testing
+
+Run the automated test suite:
 
 ```bash
 npm test
+```
+
+Run the coverage report:
+
+```bash
 npm run coverage
 ```
 
-Current verified local result:
+Current verified coverage result:
 
 ```text
 Test Files   1 passed
@@ -46,95 +123,58 @@ Functions    100%
 Lines        100%
 ```
 
-This exceeds the required 80% test coverage baseline.
-
 The coverage report is generated in:
 
 ```text
 coverage/lcov.info
 ```
 
-This file can be uploaded to Codecov through the GitHub Actions workflow. The coverage configuration focuses on the core modules that are appropriate for unit testing. Browser-level behaviour in `app.js` is evidenced through manual functional testing and Lighthouse screenshots.
-
 ## Build
+
+Create the production build:
 
 ```bash
 npm run build
 ```
 
+The production output is generated in:
+
+```text
+dist/
+```
+
 ## Deployment
 
-Deploy the repository to Vercel as a static Vite project:
+This project can be deployed as a Vite static application.
+
+Recommended Vercel settings:
 
 ```text
-Framework preset: Vite
-Build command: npm run build
-Output directory: dist
-Install command: npm install
+Framework Preset: Vite
+Install Command: npm install
+Build Command: npm run build
+Output Directory: dist
 ```
 
-Keep the deployment live for 7 consecutive days and screenshot the deployment history for the report.
+## Quality Assurance
 
-## Evidence Needed for Report Section 6
+The enhanced application was verified using:
 
-The following screenshots or badges should be collected for the report:
+- Automated unit tests with Vitest
+- V8 coverage reporting
+- Codecov coverage badge
+- Browser-based functional testing
+- Lighthouse accessibility auditing
+- Manual checks for language switching, localStorage consent, and privacy controls
 
-1. Vercel/Render 7-day live deployment log.
-2. Codecov badge or Istanbul/Vitest coverage result showing 80%+ coverage.
-3. Lighthouse Accessibility screenshot showing 90+.
-4. Screenshot of the English/Chinese language toggle.
-5. Screenshot of the cookie/localStorage consent banner.
-6. Screenshot of the Privacy Policy dialog.
+## Repository Notes
 
-## Suggested Deficiencies for the Report
-
-The report can use the following four source-code deficiencies:
-
-1. **XSS vulnerability from unsafe user-input rendering**  
-   The original app rendered user-controlled content using HTML string insertion. The enhanced version renders entries using DOM APIs and `textContent`.
-
-2. **Weak input validation**  
-   The original app only checked whether fields were empty. The enhanced version validates title length, numeric format, positive amount, maximum amount and two-decimal precision.
-
-3. **Accessibility weakness**  
-   The original app used non-semantic clickable elements and lacked sufficient assistive labels. The enhanced version uses semantic buttons, labels, ARIA tab attributes, `aria-live` feedback and visible keyboard focus.
-
-4. **Privacy/localStorage transparency weakness**  
-   The original app stored budget data without clear consent or privacy explanation. The enhanced version adds a consent banner, Privacy Policy dialog, consent-gated localStorage persistence and a clear-data control.
-
-## Project Structure
+Generated files and local environment files are excluded from version control through `.gitignore`, including:
 
 ```text
-.
-├── .github/workflows/ci.yml
-├── font/
-├── src/
-│   ├── app.js
-│   ├── chart.js
-│   ├── i18n.js
-│   ├── model.js
-│   ├── storage.js
-│   └── validation.js
-├── tests/
-│   └── core.test.js
-├── .gitignore
-├── COURSEWORK-HANDOVER.md
-├── index.html
-├── package.json
-├── package-lock.json
-├── README.md
-├── style.css
-└── vite.config.js
+node_modules/
+dist/
+coverage/
+.idea/
+.env
 ```
-
-## Notes for Coursework Handover
-
-- Do not upload `node_modules`, `coverage`, or `dist` to GitHub.
-- Keep screenshots with clear file names, for example:
-    - `01-coverage-80plus.png`
-    - `02-lighthouse-accessibility-100.png`
-    - `03-cookie-consent-banner.png`
-    - `04-privacy-policy-dialog.png`
-    - `05-i18n-toggle.png`
-    - `06-vercel-deployment.png`
-- The final ZIP submission should include `report.pdf`, `github-url.txt`, `live-url.txt`, and `individual-contribution.xlsx` according to the coursework brief.
